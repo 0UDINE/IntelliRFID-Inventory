@@ -5,6 +5,11 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Produit;
+use App\Models\EtiquetteRFID;
+use App\Models\Alerte;
+use App\Models\Utilisateur;
+use App\Models\Rapport;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,5 +24,16 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        Utilisateur::factory(10)->create();
+
+        // Create products and related entities
+        Produit::factory(20)->create()->each(function ($produit) {
+            EtiquetteRFID::factory(5)->create(['produit_id' => $produit->id]);
+            Alerte::factory(3)->create(['produit_id' => $produit->id]);
+        });
+
+        // Create reports
+        Rapport::factory(10)->create();
     }
 }
