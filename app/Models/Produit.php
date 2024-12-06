@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Produit extends Model
 {
     use HasFactory; 
-    protected $fillable = ['nom', 'categorie', 'quantite_stock', 'seuil_alerte'];
+    protected $fillable = [
+        'nom', 'categorie', 'marque', 'quantite_stock', 'seuil_alerte', 'prix',
+    ];
 
     public function etiquettes()
     {

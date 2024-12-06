@@ -22,4 +22,8 @@ require __DIR__.'/auth.php';
 
 
 Route::resource('produits', ProduitController::class);
-Route::get('/produits', [ProduitController::class, 'index'])->name('produits.index');
+Route::delete('/produits/{id}', [ProduitController::class, 'destroy'])->name('produits.destroy');
+
+
+
+
