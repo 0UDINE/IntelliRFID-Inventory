@@ -2,63 +2,53 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Exports\StockReportExport;
+use App\Models\Modification;
+use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Produit;
 
 class RapportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
+
+        /**
+     * Génère un rapport de stock au format CSV.
      */
-    public function index()
+    public function exportStockReport()
     {
-        //
+        return Excel::download(new StockReportExport, 'rapport_stock.csv');
     }
 
-    /**
-     * Show the form for creating a new resource.
+            /**
+     * Génère un rapport de stock au format PDF.
      */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+     public function exportPDF()
     {
-        //
-    }
+        // Retrieve the product data
+        $produits = Produit::select('nom', 'categorie', 'marque', 'quantite_stock', 'prix')->get();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        // Load the Blade view with data
+        $pdf = Pdf::loadView('stock_report', compact('produits'));
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        // Return the generated PDF for download
+        return $pdf->download('rapport_de_stock.pdf');
     }
+    
+    /**
+     * Générer le rapport PDF des modifications
+     */
+    public function generateModifReport()
+    {
+        // Récupérer toutes les modifications
+        $modifications = Modification::with('produit:id,nom')
+            ->get(['action', 'produit_id', 'changes', 'created_at']);
+        
+        // Passer les données à la vue pour générer le PDF
+        $pdf = Pdf::loadView('modifications_report', compact('modifications'));
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        // Retourner le PDF au navigateur pour le téléchargement
+        return $pdf->download('modifications_report.pdf');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    
 }
