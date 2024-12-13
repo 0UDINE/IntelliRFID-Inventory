@@ -12,7 +12,7 @@ class Produit extends Model
         'nom', 'categorie', 'marque', 'quantite_stock', 'seuil_alerte', 'prix',
     ];
 
-    public function etiquettes()
+    public function etiquetteRFIDs()
     {
         return $this->hasMany(EtiquetteRFID::class);
     }

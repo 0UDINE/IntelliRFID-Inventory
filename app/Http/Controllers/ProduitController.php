@@ -7,6 +7,21 @@ use Illuminate\Http\Request;
 
 class ProduitController extends Controller
 {
+    public function search(Request $request)
+    {
+        // Get the search query from the request
+        $search = $request->get('search');
+
+        // Query the Product model and filter by name, category, or brand
+        $products = Produit::where(function ($query) use ($search) {
+            $query->where('nom', 'like', '%' . $search . '%')  // Product name
+                  ->orWhere('categorie', 'like', '%' . $search . '%')  // Category
+                  ->orWhere('marque', 'like', '%' . $search . '%');  // Brand
+        })->get();
+
+        // Return the products to the view
+        return view('simulate-scan', compact('products'));
+    }
     // Display a listing of the products
     public function index()
     {

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('code_rfid')->unique();
             $table->dateTime('date_activation');
             $table->boolean('actif');
+            $table->dateTime('last_scanned_at')->nullable(); // Last scanned time
+            $table->integer('scan_count')->default(0); // Total number of scans
             $table->timestamps();
         });
         
