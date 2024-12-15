@@ -50,5 +50,5 @@ Ensure the following tools are installed on your machine:
 
 - If using Git:
    ```bash
-   git clone <project-repository-url>
-   cd <project-folder>
+   git clone https://github.com/0UDINE/IntelliRFID-Inventory.git
+   cd IntelliRFID-Inventor
